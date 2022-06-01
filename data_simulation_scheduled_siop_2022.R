@@ -1,7 +1,7 @@
 #######################################################################
 ##########DATA SIMULATION WITH DIFFERENTIAL PREDICTION ANALYSIS########
 #######################################################################
-options(java.parameters = "-Xmx80000m")
+options(java.parameters = "Inf")
 
 
 ####packages
@@ -24,7 +24,7 @@ library(parallel)
 ####custom user arguments####
 ####non-varying
 ##out of function arguments 
-output_location<-"data_output"
+output_location<-"C:/Users/bcostell/Desktop/Project-Tickets/Monte Carlo Data Simulation/data_output"
 do_you_want_to_use_parallel_processing<-"No"
 do_you_want_to_output_sim_conditions<-"No"
 
@@ -121,19 +121,23 @@ date_cleaned<-
   )
 
 ##create folders dynamically based on date
+folder_length<-str_split(x, pattern = "/")%>%
+  unlist%>%length()
+
 create_output_folders<-
-  function(x){
+  function(x, folder_length){
     if(
-      !dir.exists(path=paste0(getwd(),"/",x,"/","data_output_",date_cleaned,"_1"))
+      !dir.exists(path=paste0(x,"/",date_cleaned,"_1"))
     ){
       
-      dir.create(paste0(getwd(),"/",x,"/","data_output_",date_cleaned,"_1"))
+      dir.create(paste0(x,"/",date_cleaned,"_1"))
       
     }else{
       
+        
       dir.create(
         paste0(
-          getwd(),"/",x,"/","data_output_",date_cleaned,"_",
+          x,"/",date_cleaned,"_",
           max(as.numeric(
             sapply(
               str_split(
@@ -141,16 +145,16 @@ create_output_folders<-
                   str_split(
                     grep(
                       date_cleaned,
-                      list.dirs(path=paste(getwd(),x,sep="/")),
+                      list.dirs(path=paste(x,sep="/")),
                       value=TRUE
                     ),
                     pattern="/"
                   ),
-                  "[",8
+                  "[",folder_length + 1
                 ),
                 pattern="_"
               ),
-              "[",6
+              "[",4
             )
           ))+1
         )
@@ -158,45 +162,35 @@ create_output_folders<-
     }
   }
 
-lapply(output_location,create_output_folders)
+lapply(output_location, create_output_folders, folder_length)
 
 ##set date of interest dynamically
 date_of_interest<-
-  paste0(
-    date_cleaned,"_",
-    max(as.numeric(
-      sapply(
-        str_split(
-          sapply(
-            str_split(
-              grep(
-                date_cleaned,
-                list.dirs(
-                  path=paste(
-                    getwd(),
-                    output_location,sep="/")
-                ),
-                value=TRUE
-              ),
-              pattern="/"
-            ),
-            "[",8
-          ),
-          pattern="_"
+  sapply(
+    str_split(
+      grep(
+        date_cleaned,
+        list.dirs(
+          path=paste(
+            output_location,sep="/")
         ),
-        "[",6
-      )
-    ))
-  )
+        value=TRUE
+      ),
+      pattern="/"
+    ),
+    "[", folder_length + 1
+  )%>%max()
+
+##get file output folder
+file_output_folder<-
+  paste0(output_location, "/", date_of_interest)
 
 ##output sim conditions
 if(do_you_want_to_output_sim_conditions=="Yes"){
   readr::write_csv(
     conditions_iterations,
     paste0(
-      output_location,
-      "/data_output_",
-      date_of_interest,
+      file_output_folder,
       "/sim_conditions_",
       date_of_interest,
       ".csv"
@@ -215,7 +209,7 @@ dat<-conditions_iterations
 
 ####start the function
 monte_carlo_data_simulation<-
-  function(z,dat,date_of_interest,output_location){
+  function(z, dat, date_of_interest, output_location, file_output_folder){
     
     ####varying arguments
     conditions1<-dat[z,]
@@ -709,7 +703,7 @@ monte_carlo_data_simulation<-
     if(do_you_want_to_output_simulated_data=="Yes"){
       
       ##create output location 
-      sim_dat_path<-paste0(output_location,"/","data_output_",date_of_interest,"/","sim_dat/")
+      sim_dat_path<-paste0(file_output_folder,"/","sim_dat/")
       
       ##create output folder if needed
       if(!dir.exists(sim_dat_path)){
@@ -738,7 +732,7 @@ monte_carlo_data_simulation<-
     if(do_you_want_to_output_scatterplots=="Yes"){
     
       ##create output location 
-      scatterplot_path<-paste0(output_location,"/","data_output_",date_of_interest,"/","scatterplots/")
+      scatterplot_path<-paste0(file_output_folder,"/","scatterplots/")
       
       ##create output folder if needed
       if(!dir.exists(scatterplot_path)){
@@ -814,7 +808,7 @@ monte_carlo_data_simulation<-
     if(do_you_want_to_output_histograms=="Yes"){
       
       ##create output location 
-      histogram_path<-paste0(output_location,"/","data_output_",date_of_interest,"/","histograms/")
+      histogram_path<-paste0(file_output_folder,"/","histograms/")
       
       ##create output folder if needed
       if(!dir.exists(histogram_path)){
@@ -911,7 +905,7 @@ monte_carlo_data_simulation<-
     if(do_you_want_to_output_residual_plots=="Yes"){
       
       ##create output location 
-      residual_plot_path<-paste0(output_location,"/","data_output_",date_of_interest,"/","residual_plots/")
+      residual_plot_path<-paste0(file_output_folder,"/","residual_plots/")
       
       ##create output folder if needed
       if(!dir.exists(residual_plot_path)){
@@ -1036,7 +1030,8 @@ if(do_you_want_to_use_parallel_processing=="Yes"){
           mc.cores = detectCores()-1,
           conditions_iterations,
           date_of_interest,
-          output_location
+          output_location,
+          file_output_folder
         )
       )
     toc()}
@@ -1051,7 +1046,8 @@ if(do_you_want_to_use_parallel_processing=="Yes"){
           monte_carlo_data_simulation,
           conditions_iterations,
           date_of_interest,
-          output_location
+          output_location,
+          file_output_folder
         )
       )
     toc()}
@@ -1061,9 +1057,7 @@ if(do_you_want_to_use_parallel_processing=="Yes"){
 readr::write_csv(
   monte_carlo_output,
   paste0(
-    output_location,
-    "/data_output_",
-    date_of_interest,
+    file_output_folder,
     "/mc_sim_results_",
     date_of_interest,
     ".csv"
