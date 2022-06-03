@@ -35,7 +35,7 @@ reference_sd_y<-1
 focal_m_x<-0
 focal_sd_x<-1
 iteration<-1
-do_you_want_to_output_simulated_data<-"No"
+do_you_want_to_output_simulated_data<-"Yes"
 do_you_want_to_output_scatterplots<-"Yes"
 do_you_want_to_output_histograms<-"Yes"
 do_you_want_to_output_residual_plots<-"Yes"
@@ -121,7 +121,7 @@ date_cleaned<-
   )
 
 ##create folders dynamically based on date
-folder_length<-str_split(x, pattern = "/")%>%
+folder_length<-str_split(output_location, pattern = "/")%>%
   unlist%>%length()
 
 create_output_folders<-
@@ -203,8 +203,8 @@ if(do_you_want_to_output_sim_conditions=="Yes"){
 
 ####function for simulation and analysis####
 ####for showing example
-z<-24
-dat<-conditions_iterations
+#z<-24
+#dat<-conditions_iterations
 
 
 ####start the function
@@ -714,7 +714,7 @@ monte_carlo_data_simulation<-
       readr::write_csv(
         combined_dat,
         paste0(
-          sim_dat_path,"/",
+          sim_dat_path,
           "c",condition,
           "_i_",iteration,
           "_rv_",reference_validity,
@@ -763,7 +763,7 @@ monte_carlo_data_simulation<-
     ##open a png
     png(
       filename=paste0(
-        scatterplot_path,"/",
+        scatterplot_path,
         "c",condition,
         "_i_",iteration,
         "_rv_",reference_validity,
@@ -789,13 +789,13 @@ monte_carlo_data_simulation<-
         geom="text",
         x=0,
         y=4,
-        label=paste0("Ref: R^2 = ",ref_r2,"; y = ",ref_x," + ",ref_intercept)
+        label=paste0("Ref: R^2 = ",ref_r2,"; y = ",ref_x,"x + ",ref_intercept)
       )+
       annotate(
         geom="text",
         x=0,
         y=3.5,
-        label=paste0("Focal: R^2 = ",focal_r2,"; y = ",focal_x," + ",focal_intercept)
+        label=paste0("Focal: R^2 = ",focal_r2,"; y = ",focal_x,"x + ",focal_intercept)
       )
     print(scatterplot)
     ##close png
@@ -830,7 +830,7 @@ monte_carlo_data_simulation<-
       ##open a png
       png(
         filename=paste0(
-          histogram_path,"/",
+          histogram_path,
           "x_hist_",
           "c",condition,
           "_i_",iteration,
@@ -867,7 +867,7 @@ monte_carlo_data_simulation<-
       ##open a png
       png(
         filename=paste0(
-          histogram_path,"/",
+          histogram_path,
           "y_hist_",
           "c",condition,
           "_i_",iteration,
@@ -915,7 +915,7 @@ monte_carlo_data_simulation<-
       ##Model 1
       png(
         filename=paste0(
-          residual_plot_path,"/",
+          residual_plot_path,
           "model1_resid_",
           "c",condition,
           "_i_",iteration,
@@ -944,7 +944,7 @@ monte_carlo_data_simulation<-
       ##Model 2
       png(
         filename=paste0(
-          residual_plot_path,"/",
+          residual_plot_path,
           "model2_resid_",
           "c",condition,
           "_i_",iteration,
@@ -973,7 +973,7 @@ monte_carlo_data_simulation<-
       ##Model 3
       png(
         filename=paste0(
-          residual_plot_path,"/",
+          residual_plot_path,
           "model3_resid_",
           "c",condition,
           "_i_",iteration,
