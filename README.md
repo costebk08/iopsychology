@@ -85,7 +85,7 @@ The following CRAN packages are required:
 ## Authors
 
 - Brian Costello
-- Jeff Cucina (modifications for local empirical data files)
+- Jeff Cucina
 - Kimberly Wilson
 - Phil Walmsley
 
