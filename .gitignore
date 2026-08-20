@@ -8,6 +8,7 @@
 *.dll
 /man/*.Rd
 !/man/PredBias.Rd
+!/man/create_sim_dat.Rd
 /doc/
 /Meta/
 /*.tar.gz

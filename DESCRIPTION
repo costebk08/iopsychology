@@ -9,7 +9,8 @@ Authors@R: c(
     )
 Description: Tools for industrial-organizational psychology analyses,
     including predictive bias assessment using the Cleary regression
-    approach, Gulliksen-Wilks tests, and related diagnostics.
+    approach, Gulliksen-Wilks tests, related diagnostics, and Monte Carlo
+    data simulation for differential prediction research.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

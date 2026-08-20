@@ -2,6 +2,7 @@
 # Re-run devtools::document() after editing R/PredBias.R to regenerate.
 
 export(PredBias)
+export(create_sim_dat)
 import(broom)
 import(dplyr)
 import(ggplot2)
@@ -24,4 +25,5 @@ importFrom(stats,pchisq)
 importFrom(stats,pnorm)
 importFrom(stats,scale)
 importFrom(stats,sd)
+importFrom(stats,rnorm)
 importFrom(stats,t.test)

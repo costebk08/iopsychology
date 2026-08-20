@@ -49,6 +49,32 @@ Output is returned as a tibble and written to the CSV path you provide. Three
 PNG plots (scatterplot and histograms) are also written to the paths you
 specify.
 
+## create_sim_dat
+
+`create_sim_dat()` generates simulated reference/focal datasets for Monte Carlo
+work. Fixed parameters must be single values; varying parameters can take
+multiple values and produce separate CSV files for each combination.
+
+```r
+sim_results <- create_sim_dat(
+  output_location = "C:/sim_output",
+  reference_validity = c(0.1, 0.2),
+  focal_validity = c(0.1, 0.2),
+  focal_sd_y = seq(0.9, 1.1, by = 0.1),
+  intercept_diffs = c(0.2, 0.3),
+  D = 0.7,
+  n = 5000,
+  population_percentage = 0.5,
+  iteration = 1,
+  x_var_name = "test",
+  y_var_name = "criterion"
+)
+```
+
+Each run creates a dated folder such as `2026_08_20_1` containing
+`simdat1.csv`, `simdat2.csv`, and a `parameter_key.txt` file mapping each
+dataset to the parameters used.
+
 ## Dependencies
 
 The following CRAN packages are required:
