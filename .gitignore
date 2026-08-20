@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+*.o
+*.so
+*.dll
+/man/*.Rd
+!/man/PredBias.Rd
+/doc/
+/Meta/
+/*.tar.gz
+/.Rcheck/

@@ -1,0 +1,33 @@
+Package: iopsychology
+Title: Industrial-Organizational Psychology Tools
+Version: 0.1.0
+Authors@R: c(
+    person("Brian", "Costello", role = c("aut", "cre"), email = "costebk08@users.noreply.github.com"),
+    person("Jeff", "Cucina", role = "ctb"),
+    person("Kimberly", "Wilson", role = "ctb"),
+    person("Phil", "Walmsley", role = "ctb")
+    )
+Description: Tools for industrial-organizational psychology analyses,
+    including predictive bias assessment using the Cleary regression
+    approach, Gulliksen-Wilks tests, and related diagnostics.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    broom,
+    car,
+    DescTools,
+    dplyr,
+    e1071,
+    effsize,
+    ggplot2,
+    lm.beta,
+    lmtest,
+    readr,
+    stats,
+    tibble,
+    tidyr
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

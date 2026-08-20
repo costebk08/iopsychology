@@ -1,0 +1,9 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.git$
+^\.github$
+^PredBias Function\.R$
+^Syntax to Run PredBias\.R$
+^install required packages\.R$
+^data_simulation_scheduled_siop_2022\.R$
+^Sample.*\.(csv|png)$
